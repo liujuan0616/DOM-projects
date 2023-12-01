@@ -69,8 +69,9 @@ function shuffleCards(array) {
 
   function drawACard(array){
     const i = Math.floor(Math.random() * array.length) + 1
-    
+    let oneCard = array[i]
     array.splice(i,1)
+    return oneCard
    
   }
  
@@ -78,8 +79,7 @@ function shuffleCards(array) {
 
 
 
-let user1 = []
-let user2 = []
+
 function dealCards(user1,user2){
 
     if(Math.floor(Math.random()*10 +1 > 5)){
@@ -105,38 +105,115 @@ function dealCards(user1,user2){
        }
 }
 
-shuffleCards(cards)
-drawACard(cards)
-dealCards(user1,user2)
+// shuffleCards(cards)
+// drawACard(cards)
+// console.log(drawACard(cards))
+// dealCards(user1,user2)
 
-let indexArray = []
+
+
 function findMatch(array){
-for (let i = 0; i < array.length; i++){
-    for (let j=i+1;j<array.length; j++){
-    if(array[j].id.length ===2 && array[i].id.length ===2){
-const index = array.findIndex(element=>element.id[0]===array[i].id[0])
-   if(index!==-1){
-   indexArray.push(index)
-   }
-}
-// else if(array[j].id.length ===3 && array[i].id.length ===3){
-//     const index1 = array.findIndex(element=>element.id[1]===array[i].id[1])
-//     if(index1!==-1){
-//         indexArray.push(index1)
-//         }
+    let array1 = []
+  for(let i =0;i<array.length;i++){
    
-//}
+    let index
+    let index1
+    let j = i+1
+    if(array[i].id.length ===2){
+    index = array.slice(j).findIndex(element=>element.id[0]===array[i].id[0])
+    index1 = array.slice(0,i-array.length).findIndex(element=>element.id[0]===array[i].id[0])
+    }
+    else if(array[i].id.length===3){
+       index = array.slice(j).findIndex(element=>element.id[0]===array[i].id[0]&&element.id[1]===array[i].id[1])
+       index1 = array.slice(0,i-array.length).findIndex(element=>element.id[0]===array[i].id[0]&&element.id[1]===array[i].id[1])
+    }
+    if(index===-1&&index1===-1){
+     array1.push(array[i])
+    }
+    else if(index!==-1&&index1!==-1){
+        array1.push(array[i])
+    }
+    
+    
+    }
+ 
+  return array1
+}
+function findMatchAgain(array){
+     return findMatch(findMatch(array))
+    
+}
+
+
+
+function checkMatch(array1,card){
+    let index
+   
+    if(card.id.length===2){
+    index = array1.findIndex(element=>element.id[0]===card.id[0])
+    }
+    else{
+     index = array1.findIndex(element=>element.id[0]===card.id[0]&&element.id[1]===card.id[1])
+    }
+    if (index===-1){
+        array1.push(card)
+    }
+    else{
+        array1.splice(index,1)
+    }
 
 }
 
+function game(){
+let player1=[]
+let computer=[]
+shuffleCards(cards)
+
+console.log(drawACard(cards))
+dealCards(player1,computer)
+console.log(player1)
+console.log(computer)
+console.log(findMatchAgain(player1))
+console.log(findMatchAgain(computer))
+console.log(player1)
+console.log(computer)
+// while(player1.length!==0&&computer.length!==0){
+// let card = drawACard(computer)
+// checkMatch(player1,card)
+// let card1 = drawACard(player1)
+// checkMatch(computer,card1)
+// }
+
+// console.log(player1)
+// console.log(computer)
+// if (player1.length===0){
+//     console.log('You win')
+
+// }
+// else{
+//     console.log('You lose')
+// }
+  
 }
-}
-console.log(user1)
-findMatch(user1)
-console.log(indexArray)
+
+let player1=[]
+let computer=[]
+shuffleCards(cards)
+
+console.log(drawACard(cards))
+dealCards(player1,computer)
+console.log(player1)
+console.log(computer)
+console.log(findMatchAgain(player1))
+console.log(findMatchAgain(computer))
+
+
+
+
+
+
 
 
 
 
  
-
