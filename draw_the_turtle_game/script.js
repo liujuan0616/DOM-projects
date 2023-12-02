@@ -204,6 +204,8 @@ console.log(drawACard(cards))
 dealCards(player1,computer)
 console.log(player1)
 console.log(computer)
+console.log(findMatch(player1))
+console.log(findMatch(computer))
 console.log(findMatchAgain(player1))
 console.log(findMatchAgain(computer))
 
