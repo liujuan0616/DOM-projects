@@ -1,3 +1,25 @@
 body{
     background-image:url('image/background.png');
 }
+
+img{
+    width:150px;
+    height: 200px;
+    
+}
+#cards{
+    justify-content: center;
+    align-items: center;
+}
+
+#player img{
+    width:100px;
+    height: 133px;
+
+}
+
+#computer img{
+    width:100px;
+    height: 133px;
+    
+}
