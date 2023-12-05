@@ -66,71 +66,40 @@ const cards = [{ id: '1c', src: 'image/ace_of_clubs.png', text: 'Ace of clubs' }
 { id: '0r', src: 'image/red_joker.png', text: 'Red Joker' },
 { id: '0b', src: 'image/black_joker.png', text: 'Black Joker' }]
 
+
 const cardsEl = document.querySelector('#cards')
-function creatBoard(){
-    
-    const cardDeck = document.createElement('img')
-    cardDeck.setAttribute('src','image/card-deck.png')
-    cardsEl.appendChild(cardDeck)
-    
-}
-
-
-
-
 
 
 function shuffleCards(array) {
 
-    array.sort(()=>0.5-Math.random())
-    // for (let i = array.length - 1; i > 0; i--) {
-    //     const j = Math.floor(Math.random() * (i + 1));
-    //     [array[i], array[j]] = [array[j], array[i]];
-    // }
-}
-
-function drawACard(array) {
-    const i = Math.floor(Math.random() * array.length) 
-    let oneCard = array[i]
-    array.splice(i, 1)
-    return oneCard
-
+    array.sort(() => 0.5 - Math.random())
+   
 }
 
 const turtleCardEl = document.querySelector('#turtle')
-function createTurtleCard(){
-    const turtleCard = document.createElement('img')
-    turtleCard.setAttribute('src','image/back.png')
-    turtleCardEl.appendChild(turtleCard)
- 
-}
 
-const playerCardEl=document.querySelector('#player')
-function createPlayerBoard(array){
-    for(let i=0; i<array.length; i++){
-const playerCard = document.createElement('img')
-playerCard.setAttribute('src', array[i].src)
-playerCard.setAttribute('id',array[i].id)
-playerCardEl.appendChild(playerCard)
+const playerCardEl = document.querySelector('#player')
+function createPlayerBoard(array) {
+    for (let i = 0; i < array.length; i++) {
+        const playerCard = document.createElement('img')
+        playerCard.setAttribute('src', array[i].src)
+        playerCard.setAttribute('id', array[i].id)
+        playerCardEl.appendChild(playerCard)
     }
- 
-
 }
-const computerCardEl=document.querySelector('#computer')
-function createComputerBoard(array){
-    for(let i=0; i<array.length; i++){
+
+const computerCardEl = document.querySelector('#computer')
+
+function createComputerBoard(array) {
+    for (let i = 0; i < array.length; i++) {
         const computerCard = document.createElement('img')
         computerCard.setAttribute('src', 'image/back.png')
-        computerCard.setAttribute('id',array[i].id)
+        computerCard.setAttribute('id', array[i].id)
         computerCardEl.appendChild(computerCard)
+    }
 }
-}
-
-
 
 function dealCards(user1, user2) {
-
-
 
     if (Math.floor(Math.random() * 10 + 1 > 5)) {
         for (let i = 0; i < cards.length; i++) {
@@ -153,15 +122,7 @@ function dealCards(user1, user2) {
         }
 
     }
-
-    setTimeout(cardsEl.children[0].remove(), 10000)
 }
-
-// shuffleCards(cards)
-// drawACard(cards)
-// console.log(drawACard(cards))
-// dealCards(user1,user2)
-
 
 // take the sets from the cards, but if have 2 sets, this not work, need to use findMatchAgain()
 function findMatch(array) {
@@ -174,16 +135,16 @@ function findMatch(array) {
         // if id has 2 characters,only compare the first character
         if (array[i].id.length === 2) {
             // in array, check array[i] right side has same id[0] or not
-            index = array.slice(j).findIndex(element => element.id[0] === array[i].id[0]&&element.id.length===2)
+            index = array.slice(j).findIndex(element => element.id[0] === array[i].id[0] && element.id.length === 2)
             // in array, check array[i] left side has same id[0] or not
-            index1 = array.slice(0, i ).findIndex(element => element.id[0] === array[i].id[0]&&element.id.length===2)
+            index1 = array.slice(0, i).findIndex(element => element.id[0] === array[i].id[0] && element.id.length === 2)
         }
         // if id has 3 characters, check id[0] and id[1]
         else if (array[i].id.length === 3) {
             //in array, check  array[i] right side has same id[0] and id [1] or not
-            index = array.slice(j).findIndex(element => element.id[0] === array[i].id[0] && element.id[1] === array[i].id[1]&&element.id.length===3)
+            index = array.slice(j).findIndex(element => element.id[0] === array[i].id[0] && element.id[1] === array[i].id[1] && element.id.length === 3)
             // in array, check array[i] left side has same id[0] and id[1] or not
-            index1 = array.slice(0, i ).findIndex(element => element.id[0] === array[i].id[0] && element.id[1] === array[i].id[1]&&element.id.length===3)
+            index1 = array.slice(0, i).findIndex(element => element.id[0] === array[i].id[0] && element.id[1] === array[i].id[1] && element.id.length === 3)
         }
         // if left side and right side didn't have the same id[0] or id[0] and id[1]
         if (index === -1 && index1 === -1) {
@@ -207,76 +168,39 @@ function findMatchAgain(array) {
 
 }
 
-
-
-function checkPlayerMatch(card) {
-   
-    let index
-    
-   
-    if (card.id.length === 2) {
-        index = player.findIndex(element => element.id[0] === card.id[0]&& element.id.length===2)
-    }
-    else {
-        index = player.findIndex(element => element.id[0] === card.id[0] && element.id[1] === card.id[1]&&element.id.length===3)
-    }
-    if (index === -1) {
-        player.push(card)
-        const newCardEl = document.createElement('img')
-        newCardEl.setAttribute('id',card.id)
-        newCardEl.setAttribute('src',card.src)
-        playerCardEl.appendChild(newCardEl)
-        
-        
-    }
-    else {
-        player.splice(index, 1)
-        playerCardEl.children[index].remove()
-    }
-
-}
-function checkComputerMatch(card) {
-   
-    let index
-    
-   
-    if (card.id.length === 2) {
-        index = computer.findIndex(element => element.id[0] === card.id[0]&& element.id.length===2)
-    }
-    else {
-        index = computer.findIndex(element => element.id[0] === card.id[0] && element.id[1] === card.id[1]&&element.id.length===3)
-    }
-    if (index === -1) {
-        computer.push(card)
-        const newCardEl = document.createElement('img')
-        newCardEl.setAttribute('id',card.id)
-        newCardEl.setAttribute('src',card.src)
-        computerCardEl.appendChild(newCardEl)
-        
-        
-    }
-    else {
-        computer.splice(index, 1)
-        computerCardEl.children[index].remove()
-    }
-
-}
 const btnEl = document.querySelector('#takeMatch')
 
-
-    
-
+const startGameEl = document.querySelector('#startGame')
 function game() {
-    creatBoard()
+    // startGameEl.addEventListener('click',initialGame)
+    // //function initialGame()
     let player = []
     let computer = []
     shuffleCards(cards)
+
+    function drawTurtleCard(){
+        const i = Math.floor(Math.random() * cards.length)
+            const turtleCard0 = cards[i]
+           cards.splice(i, 1)
+           return turtleCard0
+
+    }
+    const turtleCard0 = drawTurtleCard()
     
 
-    console.log(drawACard(cards))
-
+    function createTurtleCard(){
+        
+        const turtleCard = document.createElement('img')
+        turtleCard.setAttribute('src','image/back.png')
+        turtleCard.setAttribute('id',turtleCard0.id)
+        turtleCardEl.appendChild(turtleCard)
+    
+    }
     createTurtleCard()
     
+
+
+
     dealCards(player, computer)
     console.log(player)
     console.log(computer)
@@ -284,75 +208,165 @@ function game() {
     createPlayerBoard(player)
     createComputerBoard(computer)
 
-    const playerCardIds = player.map(item => item.id);
-
-btnEl.addEventListener('click',findMatchAgainBoth)
     
-function findMatchAgainBoth(){
-    player = findMatchAgain(player)
-    computer = findMatchAgain(computer)
-    // Create an array to store the IDs of the player cards
-const playerCardIds = player.map(item => item.id);
-
-// Iterate over the child elements of playerCardEl in reverse order
-for (let i = playerCardEl.children.length - 1; i >= 0; i--) {
-    // Check if the ID of the current child is not in the playerCardIds array
-    if (!playerCardIds.includes(playerCardEl.children[i].id)) {
-        // Remove the current child element
-        playerCardEl.children[i].remove();
-
-    }
-}
-
-const computerCardIds = computer.map(item => item.id);
-for (let i = computerCardEl.children.length-1; i >=0; i--){
-    if(!computerCardIds.includes(computerCardEl.children[i].id)){
-        computerCardEl.children[i].remove();
-    }
-}
-function flipCard(){
     
-    for (item of computer){
-        if(item.id = this.id){
-            this.src = item.src
+   
+
+    btnEl.addEventListener('click', findMatchAgainBoth)
+
+    function findMatchAgainBoth() {
+        player = findMatchAgain(player)
+        computer = findMatchAgain(computer)
+        // Create an array to store the IDs of the player cards
+        const playerCardIds = player.map(item => item.id);
+
+        // Iterate over the child elements of playerCardEl in reverse order
+        for (let i = playerCardEl.children.length - 1; i >= 0; i--) {
+            // Check if the ID of the current child is not in the playerCardIds array
+            if (!playerCardIds.includes(playerCardEl.children[i].id)) {
+                // Remove the current child element
+                playerCardEl.removeChild(playerCardEl.children[i]);
+
+            }
         }
-     
-        
-    }
-    for(let i=0; i< computerCardEl.children.length;i++){
-        computerCardEl.children[i].removeEventListener('click',flipCard)  
-        
-    }
+
+        const computerCardIds = computer.map(item => item.id);
+        for (let i = computerCardEl.children.length - 1; i >= 0; i--) {
+            if (!computerCardIds.includes(computerCardEl.children[i].id)) {
+                computerCardEl.removeChild(computerCardEl.children[i]);
+            }
+        }
     
+    
+        btnEl.removeEventListener('click', findMatchAgainBoth)
 
-}
+        function flipCard() {
+ 
+            for (item of computer) {
+                if (item.id === this.id) {
+                    this.src = item.src
+                }
 
+            }
+            
+        //  trying to get the element from the computer array which is clicked on computerCardEl.children
+            let card = computer.filter(element=>element.id===this.id)
+            computer=computer.filter(element=>element!==card[0])
+            
+            if(card.length>0){
+            checkPlayerMatch(card)
+            }
+            let card1 = drawACard()
+            console.log(card1,'card1')
+          
+            checkComputerMatch(card1)
+          
+            // for (let i = 0; i < computerCardEl.children.length; i++) {
+            //     computerCardEl.children[i].removeEventListener('click', flipCard)
 
-while(player.length!==0&&computer.length!==0){
+            // }
+            function showTurtleCard(){
+               
+                    turtleCardEl.children[0].src = turtleCard0.src
+                    
+            }
 
-for(let i=0; i< computerCardEl.children.length;i++){
-    computerCardEl.children[i].addEventListener('click',flipCard)  
+            const resultEl = document.querySelector('#gameResult')
+            if (player.length === 0) {
+                resultEl.textContent = 'You Win!'
+                showTurtleCard()
 
-}
+            }
+            else if(computer.length===0) {
+                resultEl.textContent = 'You Lose, try again!'
+                showTurtleCard()
+            }
 
-let card = flipCard
-    checkPlayerMatch(card)
-    let card1 = drawACard(player)
-    checkComputerMatch(card1)
+        }
+
+        function checkPlayerMatch(card) {
+
+            let index
+            for(let i =0; i <computerCardEl.children.length;i++){
+                if(computerCardEl.children[i].id === card[0].id){
+                    computerCardEl.removeChild(computerCardEl.children[i])
+                }
+            }
+            console.log(card)
+            if (card[0].id.length === 2) {
+                index = player.findIndex(element => element.id[0] === card[0].id[0] && element.id.length === 2)
+            }
+            else {
+                index = player.findIndex(element => element.id[0] === card[0].id[0] && element.id[1] === card[0].id[1] && element.id.length === 3)
+            }
+            if (index === -1) {
+                player.push(card[0])
+                const newCardEl = document.createElement('img')
+                newCardEl.setAttribute('id', card[0].id)
+                newCardEl.setAttribute('src', card[0].src)
+                playerCardEl.appendChild(newCardEl)
+        
+            }
+            else {
+                player.splice(index, 1)
+                playerCardEl.removeChild(playerCardEl.children[index])
+            }
+        
+        }
+        function checkComputerMatch(card) {
+        
+            let index
+        
+        console.log(card,'computer')
+            if (card.id.length === 2) {
+                index = computer.findIndex(element => element.id[0] === card.id[0] && element.id.length === 2)
+            }
+            else {
+                index = computer.findIndex(element => element.id[0] === card.id[0] && element.id[1] === card.id[1] && element.id.length === 3)
+            }
+            if (index === -1) {
+                computer.push(card)
+                const newCardEl = document.createElement('img')
+                newCardEl.setAttribute('id', card.id)
+                newCardEl.setAttribute('src', card.src)
+                computerCardEl.appendChild(newCardEl)
+        
+            }
+            else {
+                computer.splice(index, 1)
+                computerCardEl.removeChild(computerCardEl.children[index])
+            }
+           
+        }
+        function drawACard() {
+            const i = Math.floor(Math.random() * player.length)
+            let oneCard = player[i]
+            player.splice(i, 1)
+            console.log(player)
+            if(player.length!==0){
+            playerCardEl.removeChild(playerCardEl.children[i])
+            }
+            return oneCard
+        
+        }
+        
+        
+        for (let i = 0; i < computerCardEl.children.length; i++) {
+            computerCardEl.children[i].addEventListener('click', flipCard)
+            
+        }
+    
+       
+        
+        
     }
-    console.log(player)
-    console.log(computer)
-    if (player.length===0){
-        console.log('You win')
-    }
-    else{
-        console.log('You lose')
-    }
-    }
+   
 
+   
    
 
 }
+
 
 game()
 

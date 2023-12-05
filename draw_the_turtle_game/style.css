@@ -15,11 +15,43 @@ img{
 #player img{
     width:100px;
     height: 133px;
+    padding:10px;
+    margin-top:10px;
 
 }
 
 #computer img{
     width:100px;
     height: 133px;
+    padding:10px;
+    margin-top:10px;
     
+}
+
+button {
+    display: inline-block;
+      padding: 10px 20px;
+      font-size: 20px;
+      text-align: center;
+      margin: 20px;
+      cursor: pointer;
+      border: 2px solid #3498db;
+      color: blue;
+      background-color: #d0f118;
+      border-radius: 10px;
+      transition: background-color 0.3s, color 0.3s;
+}
+
+button:hover{
+    background-color: #3bbb53;
+      color: #fff;
+}
+
+h3{
+    font-size: xx-large;
+    color: rgb(209, 94, 94);
+    font-family: sans-serif;
+    justify-content: center;
+    align-items: center;
+
 }
