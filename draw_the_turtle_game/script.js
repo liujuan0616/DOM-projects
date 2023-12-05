@@ -69,17 +69,17 @@ const cards = [{ id: '1c', src: 'image/ace_of_clubs.png', text: 'Ace of clubs' }
 
 const cardsEl = document.querySelector('#cards')
 
-
 function shuffleCards(array) {
 
     array.sort(() => 0.5 - Math.random())
-   
+
 }
 
 const turtleCardEl = document.querySelector('#turtle')
 
 const playerCardEl = document.querySelector('#player')
 function createPlayerBoard(array) {
+    shuffleCards(array)
     for (let i = 0; i < array.length; i++) {
         const playerCard = document.createElement('img')
         playerCard.setAttribute('src', array[i].src)
@@ -165,41 +165,44 @@ function findMatch(array) {
 
 function findMatchAgain(array) {
     return findMatch(findMatch(array))
-
 }
 
 const btnEl = document.querySelector('#takeMatch')
 
 const startGameEl = document.querySelector('#startGame')
+
+
+
+  
+    
+
+
 function game() {
-    // startGameEl.addEventListener('click',initialGame)
-    // //function initialGame()
+    
     let player = []
     let computer = []
     shuffleCards(cards)
 
-    function drawTurtleCard(){
+    function drawTurtleCard() {
         const i = Math.floor(Math.random() * cards.length)
-            const turtleCard0 = cards[i]
-           cards.splice(i, 1)
-           return turtleCard0
+        const turtleCard0 = cards[i]
+        cards.splice(i, 1)
+        return turtleCard0
 
     }
     const turtleCard0 = drawTurtleCard()
-    
+    console.log(turtleCard0)
 
-    function createTurtleCard(){
-        
+
+    function createTurtleCard() {
+
         const turtleCard = document.createElement('img')
-        turtleCard.setAttribute('src','image/back.png')
-        turtleCard.setAttribute('id',turtleCard0.id)
+        turtleCard.setAttribute('src', 'image/back.png')
+        turtleCard.setAttribute('id', turtleCard0.id)
         turtleCardEl.appendChild(turtleCard)
-    
+
     }
     createTurtleCard()
-    
-
-
 
     dealCards(player, computer)
     console.log(player)
@@ -207,10 +210,12 @@ function game() {
 
     createPlayerBoard(player)
     createComputerBoard(computer)
+    
+    
 
-    
-    
-   
+
+    const resultEl = document.querySelector('#gameResult')
+
 
     btnEl.addEventListener('click', findMatchAgainBoth)
 
@@ -236,50 +241,58 @@ function game() {
                 computerCardEl.removeChild(computerCardEl.children[i]);
             }
         }
-    
-    
+
+
         btnEl.removeEventListener('click', findMatchAgainBoth)
 
         function flipCard() {
- 
+
             for (item of computer) {
                 if (item.id === this.id) {
                     this.src = item.src
                 }
-
             }
-            
-        //  trying to get the element from the computer array which is clicked on computerCardEl.children
-            let card = computer.filter(element=>element.id===this.id)
-            computer=computer.filter(element=>element!==card[0])
-            
-            if(card.length>0){
-            checkPlayerMatch(card)
+            console.log(computer, 'computer')
+            //  trying to get the element from the computer array which is clicked on computerCardEl.children
+            let card = computer.filter(element => element.id === this.id)
+            computer = computer.filter(element => element !== card[0])
+            console.log(computer, 'computer1')
+            console.log(card, 'clicked1')
+
+            if (card.length > 0) {
+                checkPlayerMatch(card)
+            }
+            if (computer.length === 0) {
+                resultEl.textContent = 'You Lose, try again!'
+                return
             }
             let card1 = drawACard()
-            console.log(card1,'card1')
-          
-            checkComputerMatch(card1)
-          
-            // for (let i = 0; i < computerCardEl.children.length; i++) {
-            //     computerCardEl.children[i].removeEventListener('click', flipCard)
+            console.log(card1, 'card1')
 
-            // }
-            function showTurtleCard(){
-               
-                    turtleCardEl.children[0].src = turtleCard0.src
-                    
+            checkComputerMatch(card1)
+
+            function showTurtleCard() {
+
+                turtleCardEl.children[0].src = turtleCard0.src
+
             }
 
-            const resultEl = document.querySelector('#gameResult')
             if (player.length === 0) {
                 resultEl.textContent = 'You Win!'
                 showTurtleCard()
-
+                computerCardEl.children[0].src = computer[0].src
+                if (playerCardEl.children.length) {
+                    playerCardEl.removeChild(playerCardEl.children[0])
+                }
+               
             }
-            else if(computer.length===0) {
+            else if (computer.length === 0) {
                 resultEl.textContent = 'You Lose, try again!'
                 showTurtleCard()
+                if (computerCardEl.children.length) {
+                    computerCardEl.removeChild(computerCardEl.children[0])
+                }
+               
             }
 
         }
@@ -287,12 +300,12 @@ function game() {
         function checkPlayerMatch(card) {
 
             let index
-            for(let i =0; i <computerCardEl.children.length;i++){
-                if(computerCardEl.children[i].id === card[0].id){
+            for (let i = 0; i < computerCardEl.children.length; i++) {
+                if (computerCardEl.children[i].id === card[0].id) {
                     computerCardEl.removeChild(computerCardEl.children[i])
                 }
             }
-            console.log(card)
+            console.log(card, 'clicked')
             if (card[0].id.length === 2) {
                 index = player.findIndex(element => element.id[0] === card[0].id[0] && element.id.length === 2)
             }
@@ -300,85 +313,72 @@ function game() {
                 index = player.findIndex(element => element.id[0] === card[0].id[0] && element.id[1] === card[0].id[1] && element.id.length === 3)
             }
             if (index === -1) {
-                player.push(card[0])
+                // player.push(card[0])
+                const j = Math.floor(Math.random() * player.length)
+                player.splice(j, 0, card[0])
                 const newCardEl = document.createElement('img')
                 newCardEl.setAttribute('id', card[0].id)
                 newCardEl.setAttribute('src', card[0].src)
-                playerCardEl.appendChild(newCardEl)
-        
+                //playerCardEl.appendChild(newCardEl)
+                playerCardEl.insertBefore(newCardEl, playerCardEl.children[j])
+
             }
             else {
                 player.splice(index, 1)
                 playerCardEl.removeChild(playerCardEl.children[index])
             }
-        
+
         }
         function checkComputerMatch(card) {
-        
+
             let index
-        
-        console.log(card,'computer')
-            if (card.id.length === 2) {
-                index = computer.findIndex(element => element.id[0] === card.id[0] && element.id.length === 2)
+
+            console.log(card, 'computer')
+            if (card) {
+                if (card.id.length === 2) {
+                    index = computer.findIndex(element => element.id[0] === card.id[0] && element.id.length === 2)
+                }
+                else {
+                    index = computer.findIndex(element => element.id[0] === card.id[0] && element.id[1] === card.id[1] && element.id.length === 3)
+                }
+                if (index === -1) {
+                    //computer.push(card)
+                    const j = Math.floor(Math.random() * computer.length)
+                    computer.splice(j, 0, card)
+                    const newCardEl = document.createElement('img')
+                    newCardEl.setAttribute('id', card.id)
+                    newCardEl.setAttribute('src', 'image/back.png')
+                    //computerCardEl.appendChild(newCardEl)
+                    computerCardEl.insertBefore(newCardEl, computerCardEl.children[j])
+
+                    newCardEl.addEventListener('click', flipCard)
+
+                }
+                else {
+                    computer.splice(index, 1)
+                    computerCardEl.removeChild(computerCardEl.children[index])
+                }
             }
-            else {
-                index = computer.findIndex(element => element.id[0] === card.id[0] && element.id[1] === card.id[1] && element.id.length === 3)
-            }
-            if (index === -1) {
-                computer.push(card)
-                const newCardEl = document.createElement('img')
-                newCardEl.setAttribute('id', card.id)
-                newCardEl.setAttribute('src', card.src)
-                computerCardEl.appendChild(newCardEl)
-        
-            }
-            else {
-                computer.splice(index, 1)
-                computerCardEl.removeChild(computerCardEl.children[index])
-            }
-           
         }
         function drawACard() {
             const i = Math.floor(Math.random() * player.length)
             let oneCard = player[i]
             player.splice(i, 1)
             console.log(player)
-            if(player.length!==0){
-            playerCardEl.removeChild(playerCardEl.children[i])
+            if (player.length !== 0) {
+                playerCardEl.removeChild(playerCardEl.children[i])
             }
+
             return oneCard
-        
         }
-        
-        
+
         for (let i = 0; i < computerCardEl.children.length; i++) {
             computerCardEl.children[i].addEventListener('click', flipCard)
-            
         }
-    
-       
-        
-        
-    }
-   
 
-   
-   
+    }
 
 }
-
-
 game()
-
-
-
-
-
-
-
-
-
-
-
 
 
