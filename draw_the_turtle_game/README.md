@@ -14,3 +14,7 @@ Rules:
  css,
  html,
  javascript
+
+ To-do List:
+ 1, make Game Start button;
+ 2, setTimeOut for computer flip card and draw card

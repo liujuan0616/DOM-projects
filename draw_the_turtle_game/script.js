@@ -264,6 +264,7 @@ function game() {
             }
             if (computer.length === 0) {
                 resultEl.textContent = 'You Lose, try again!'
+                showTurtleCard()
                 return
             }
             let card1 = drawACard()
